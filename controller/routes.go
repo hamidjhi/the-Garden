@@ -24,8 +24,7 @@ func RegisterRoutes(c *echo.Echo) {
 	v.DELETE("/deleteComment", deleteComment)
 
 	// user qr scanner
-
-//	v.GET("/getTreeByQr", showTreesByQr)
+	v.GET("/getTreeByQr", showTreesByQr)
 
 
 }

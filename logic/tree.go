@@ -17,16 +17,13 @@ func ShowTrees(date model.Date, treeId string, page *model.Paginate, )(resp *mod
 	return resp, nil
 }
 
-//func ShowByQr(qr string)(resp *model.Tree,err  error)  {
-//
-//	resp := db.ShowByQr(qr)
-//
-//
-//}
-
-
-
-
+func ShowTreesByQr(qr string)(resp *model.Tree, err error)  {
+	 resp, err = db.ShowTreesByQr(qr)
+	if err != nil {
+		log.Println("we dont have response from db")
+	}
+	return resp, nil
+}
 
 
 

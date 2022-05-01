@@ -51,6 +51,29 @@ func ShowTrees(date model.Date, treeId string, paginate *model.Paginate)( *model
 
 }
 
+func ShowTreesByQr(qr string)( *model.Tree,  error)  {
+    var c *model.Tree
+    var err error
+	res := MySQL.Model(model.Tree{}).Where(model.Tree{Qr: qr}).Find(&c)
+    if res.Error != nil{
+    	return nil, err
+	}
+	return c , nil
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 func CreateTree(tree *model.Tree) error  {
 
 
@@ -61,14 +84,6 @@ func CreateTree(tree *model.Tree) error  {
 	return  nil
 }
 
-//func ShowByQr(qr string)(resp *model.Tree, err error)  {
-//
-//
-//
-//
-//
-//}
-//
 
 
 

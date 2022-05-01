@@ -38,9 +38,17 @@ func showTrees(c echo.Context)(err error)  {
 	return c.JSON(http.StatusOK,resp)
 }
 
-func showTreesByQr(c echo.Context)  {
+func showTreesByQr(c echo.Context)(err error)  {
 
-
+    qr := c.QueryParam("qr")
+    if qr == "" {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+	resp, err := logic.ShowTreesByQr(qr)
+	if err != nil {
+		return c.JSON(http.StatusBadGateway, err)
+	}
+	return c.JSON(http.StatusOK, resp)
 
 
 
