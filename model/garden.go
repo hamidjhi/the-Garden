@@ -5,9 +5,7 @@ import "gorm.io/gorm"
 type Garden struct {
 	gorm.Model
 	Name string `json:"name"`
-	GardenId string `json:"garden_id"`
-	Lat string `json:"lat"`
-	Long string `json:"long"`
+	TreeId uint `gorm:"ForeignKey:TreeId" json:"tree_id"`
 }
 
 type PaginateGardenResponse struct {

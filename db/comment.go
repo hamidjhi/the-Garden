@@ -4,13 +4,22 @@ import (
 	"chemex/model"
 	"github.com/vcraescu/go-paginator"
 	"github.com/vcraescu/go-paginator/adapter"
+	gorm2 "gorm.io/gorm"
+	"log"
+	"strconv"
 )
 
 func ShowComments(date model.Date, commentId string, paginate *model.Paginate)( *model.CommentResponsePaginate, error)  {
 	var all model.CommentResponsePaginate
 	if commentId != "" {
+		v,err := strconv.Atoi(commentId)
+		if err != nil {
+			log.Println("cannot convert")
+		}
+		id := uint(v)
+
 		response := MySQL.Model(&model.Comment{}).
-			Where(model.Comment{CommentId: commentId}).
+			Where(&model.Comment{ Model:gorm2.Model{ID:id } }).
 			Where("created at BETWEEN ? AND ?", date.FromDate, date.ToDate)
 		if response != nil {
 			return nil, response.Error
@@ -61,7 +70,12 @@ func CreateComment(commentId *model.Comment)(resp *model.Comment, err error)  {
 }
 
 func UpdateComment(comment *model.Comment, id string)(resp *model.Comment, err error)  {
-	response := MySQL.Model(model.Comment{}).Where(model.Comment{CommentId: id}).Updates(&comment)
+	v, err:= strconv.Atoi(id)
+	if err != nil {
+		log.Println("cannot convert")
+	}
+	ids := uint(v)
+	response := MySQL.Model(model.Comment{}).Where(&model.Comment{ Model:gorm2.Model{ID:ids } }).Updates(&comment)
 	if response.Error != nil{
 		return nil, response.Error
 	}
@@ -69,7 +83,12 @@ func UpdateComment(comment *model.Comment, id string)(resp *model.Comment, err e
 }
 
 func DeleteComment(commentId string)(resp *model.Comment, err error)  {
-	response := MySQL.Model(model.Comment{}).Delete(&commentId)
+	v, err:= strconv.Atoi(commentId)
+	if err != nil {
+		log.Println("cannot convert")
+	}
+	id := uint(v)
+	response := MySQL.Model(model.Comment{}).Where(&model.Comment{ Model:gorm2.Model{ID:id } }).Delete(&commentId)
 	if response.Error != nil {
 		return nil, response.Error
 	}

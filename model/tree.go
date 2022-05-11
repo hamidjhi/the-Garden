@@ -1,15 +1,20 @@
 package model
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+	"time"
+)
 
 type Tree struct {
 	gorm.Model
-	Name string `json:"name"`
-	TreeId string `json:"tree_id"`
-	Qr string `gorm:"default:uuid_generate_v3()" json:"qr"`
-	Lat string `json:"lat"`
-	Long string `json:"long"`
-	Garden []Garden `gorm:"ForeignKey:GardenId" json:"garden"`
+	FullName string `json:"full_name"`
+	Age string `json:"age"`
+	DateOfBirth time.Time
+	Type string `json:"type"`
+	Lat float64 `json:"lat"`
+	Long float64 `json:"long"`
+	Qr string `json:"qr"`
+	Length float64 `json:"length"`
 }
 
 type PaginateTreeResponse struct {

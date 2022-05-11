@@ -5,6 +5,8 @@ import (
 	"chemex/model"
 	"gorm.io/gorm"
 	"log"
+	"strconv"
+	"time"
 )
 
 func ShowTrees(date model.Date, treeId string, page *model.Paginate, )(resp *model.PaginateTreeResponse,err error) {
@@ -30,13 +32,15 @@ func ShowTreesByQr(qr string)(resp *model.Tree, err error)  {
 func CreateTree(tree *model.Tree, qr string) error  {
  var err error
 	var NewTree = model.Tree{
-		Model:  gorm.Model{},
-		Name:   tree.Name,
-		TreeId: tree.TreeId,
-		Qr:     qr,
-		Lat:    tree.Lat,
-		Long:   tree.Long,
-		Garden: tree.Garden,
+		Model:       gorm.Model{},
+		FullName:    tree.FullName,
+		Age:         tree.Age,
+		DateOfBirth: time.Time{},
+		Type:        tree.Type,
+		Lat:         tree.Lat,
+		Long:        tree.Long,
+		Qr:          qr,
+		Length:      tree.Length,
 	}
 	 err = db.CreateTree(&NewTree)
 	if err != nil {
@@ -46,7 +50,12 @@ func CreateTree(tree *model.Tree, qr string) error  {
 }
 
 func UpdateTree(tree *model.Tree, str string)( err error)  {
-	 err = db.UpdateTree(tree, str)
+	v , err:= strconv.Atoi(str)
+	if err != nil {
+		log.Println("cannot convert")
+	}
+	  id := uint(v)
+	 err = db.UpdateTree(tree, id)
 	if err != nil {
 		log.Println("cannot update tree table")
 	}
@@ -54,8 +63,9 @@ func UpdateTree(tree *model.Tree, str string)( err error)  {
 }
 
 func DeleteTree(treeId string)(resp *model.Tree, err error) {
-
-	resp, err = db.DeleteTree(treeId)
+	v , err:= strconv.ParseUint(treeId, 64,10)
+	id := uint(v)
+	resp, err = db.DeleteTree(id)
 	if err != nil {
 		log.Println("cannot delete from tree table")
 	}

@@ -4,13 +4,22 @@ import (
 	"chemex/model"
 	"github.com/vcraescu/go-paginator"
 	"github.com/vcraescu/go-paginator/adapter"
+	"gorm.io/gorm"
+	"log"
+	"strconv"
 )
 
 func ShowGardens(date model.Date, gardenId string, paginate *model.Paginate)( *model.PaginateGardenResponse, error)  {
 	var all model.PaginateGardenResponse
 	if gardenId != "" {
+
+	v , err := strconv.Atoi(gardenId)
+		if err != nil {
+			log.Println("cannot convert string to int")
+		}
+		id := uint(v)
 		response := MySQL.Model(&model.Garden{}).
-			Where(model.Garden{GardenId: gardenId}).
+			Where(&model.Garden{ Model:gorm.Model{ID:id } }).
 			Where("created at BETWEEN ? AND ?", date.FromDate, date.ToDate)
 		if response != nil {
 			return nil, response.Error
@@ -60,8 +69,11 @@ func CreateGarden(garden *model.Garden)(resp *model.Garden, err error)  {
 	return resp, nil
 }
 
-func UpdateGarden(garden *model.Garden, id string)(resp *model.Garden, err error)  {
-	response := MySQL.Model(model.Garden{}).Where(model.Garden{GardenId: id}).Updates(&garden)
+func UpdateGarden(garden *model.Garden, str string)(resp *model.Garden, err error)  {
+
+	v , err:= strconv.Atoi(str)
+	id := uint(v)
+	response := MySQL.Model(model.Garden{}).Where(&model.Garden{ Model:gorm.Model{ID:id } }).Updates(&garden)
 	if response.Error != nil{
 		return nil, response.Error
 	}
@@ -69,7 +81,9 @@ func UpdateGarden(garden *model.Garden, id string)(resp *model.Garden, err error
 }
 
 func DeleteGarden(gardenId string)(resp *model.Garden, err error)  {
-	response := MySQL.Model(model.Garden{}).Delete(&gardenId)
+	v, err := strconv.Atoi(gardenId)
+	id := uint(v)
+	response := MySQL.Model(model.Garden{}).Where(&model.Garden{ Model:gorm.Model{ID:id } }).Delete(&gardenId)
 	if response.Error != nil {
 		return nil, response.Error
 	}

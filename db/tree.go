@@ -4,16 +4,27 @@ import (
 	"chemex/model"
 	"github.com/vcraescu/go-paginator"
 	"github.com/vcraescu/go-paginator/adapter"
+	"gorm.io/gorm"
+	"log"
+	"strconv"
 )
 
 func ShowTrees(date model.Date, treeId string, paginate *model.Paginate)( *model.PaginateTreeResponse, error)  {
 	var all model.PaginateTreeResponse
 	var err error
+
 	if treeId != "" {
+
+		v , err := 	strconv.Atoi(treeId)
+		if err != nil {
+			log.Println("cannot convert")
+		}
+		id := uint(v)
+
 		response := MySQL.Model(&model.Tree{}).
-			Where(model.Tree{TreeId: treeId}).
-			Where("created at BETWEEN ? AND ?", date.FromDate, date.ToDate)
-		if response != nil {
+			Where(&model.Tree{ Model:gorm.Model{ID:id } }).
+			Where("created_at BETWEEN ? AND ?", date.FromDate, date.ToDate)
+		if response.Error != nil {
 			return nil, response.Error
 		}
 		p := paginator.New(adapter.NewGORMAdapter(response), paginate.PerPage)
@@ -54,29 +65,14 @@ func ShowTrees(date model.Date, treeId string, paginate *model.Paginate)( *model
 func ShowTreesByQr(qr string)( *model.Tree,  error)  {
     var c *model.Tree
     var err error
-	res := MySQL.Model(model.Tree{}).Where(model.Tree{Qr: qr}).Find(&c)
+	res := MySQL.Model(model.Tree{}).Where(model.Tree{Qr: qr}).Joins("").Joins("").Find(&c)
     if res.Error != nil{
     	return nil, err
 	}
 	return c , nil
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 func CreateTree(tree *model.Tree) error  {
-
-
 	response := MySQL.Model(model.Tree{}).Create(&tree)
 	if response.Error != nil{
 		return  response.Error
@@ -84,19 +80,16 @@ func CreateTree(tree *model.Tree) error  {
 	return  nil
 }
 
-
-
-
-func UpdateTree(tree *model.Tree, str string)( err error)  {
-	response := MySQL.Model(model.Tree{}).Where(model.Tree{TreeId: str}).Updates(&tree)
+func UpdateTree(tree *model.Tree, id uint)( err error)  {
+	response := MySQL.Model(model.Tree{}).Where(&model.Tree{ Model:gorm.Model{ID:id } }).Updates(&tree)
 	if response.Error != nil{
 		return err
 	}
 	return  nil
 }
 
-func DeleteTree(treeId string)(resp *model.Tree, err error)  {
-	response := MySQL.Table("trees").Where("tree_id = ?", treeId).Delete(&treeId)
+func DeleteTree(id uint)(resp *model.Tree, err error)  {
+	response := MySQL.Table("trees").Where("id = ?", id).Delete(&id)
 	if response.Error != nil {
 		return nil, response.Error
 	}

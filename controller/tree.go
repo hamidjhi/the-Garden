@@ -49,17 +49,7 @@ func showTreesByQr(c echo.Context)(err error)  {
 		return c.JSON(http.StatusBadGateway, err)
 	}
 	return c.JSON(http.StatusOK, resp)
-
-
-
-
 }
-
-
-
-
-
-
 
 func createTree(c echo.Context)(err error)  {
 
@@ -79,7 +69,7 @@ func createTree(c echo.Context)(err error)  {
 
 func updateTree(c echo.Context)(err error)  {
 
-      str := c.QueryParam("treeId")
+      str := c.QueryParam("id")
       if str == ""{
       	return c.JSON(http.StatusBadRequest, err)
 	  }
@@ -99,12 +89,12 @@ func updateTree(c echo.Context)(err error)  {
 }
 
 func deleteTree(c echo.Context)(err error) {
-	var treeId string
+	var id string
 
-	if treeId = c.QueryParam("treeId"); treeId == "" {
+	if id = c.QueryParam("id"); id == "" {
 		return c.JSON(http.StatusBadRequest,err)
 	}
-	resp ,err := logic.DeleteTree(treeId)
+	resp ,err := logic.DeleteTree(id)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError,err.Error())
 	}
