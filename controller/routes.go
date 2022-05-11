@@ -20,13 +20,19 @@ func RegisterRoutes(c *echo.Echo) {
 	// comment crud
 	v.GET("/getComment", showComments)
 	v.POST("/postComment", createComment)
-	v.PUT("/UpdateComment", updateComment)
+	v.PUT("/updateComment", updateComment)
 	v.DELETE("/deleteComment", deleteComment)
 
 	// user qr scanner
 	v.GET("/getTreeByQr", showTreesByQr)
 
 
+	// tags crud
+
+	v.GET("/getTags", showTags)
+	v.POST("/postTag", addTag)
+	v.PUT("/updateTag", updateTag)
+	v.DELETE("/deleteTag", deleteTag)
 }
 
 
