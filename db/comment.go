@@ -9,18 +9,18 @@ import (
 	"strconv"
 )
 
-func ShowComments(date model.Date, commentId string, paginate *model.Paginate)( *model.CommentResponsePaginate, error)  {
+func ShowComments(date model.Date, commentId string, paginate *model.Paginate) (*model.CommentResponsePaginate, error) {
 	var all model.CommentResponsePaginate
 	if commentId != "" {
-		v,err := strconv.Atoi(commentId)
+		v, err := strconv.Atoi(commentId)
 		if err != nil {
 			log.Println("cannot convert")
 		}
 		id := uint(v)
 
 		response := MySQL.Model(&model.Comment{}).
-			Where(&model.Comment{ Model:gorm2.Model{ID:id } }).
-			Where("created at BETWEEN ? AND ?", date.FromDate, date.ToDate)
+			Where(&model.Comment{Model: gorm2.Model{ID: id}}).
+			Where("created_at BETWEEN ? AND ?", date.FromDate, date.ToDate)
 		if response != nil {
 			return nil, response.Error
 		}
@@ -39,7 +39,7 @@ func ShowComments(date model.Date, commentId string, paginate *model.Paginate)( 
 		return &all, nil
 	}
 	response := MySQL.Model(&model.Comment{}).
-		Where("created at BETWEEN ? AND ?", date.FromDate, date.ToDate)
+		Where("created_at BETWEEN ? AND ?", date.FromDate, date.ToDate)
 	if response != nil {
 		return nil, response.Error
 	}
@@ -59,40 +59,37 @@ func ShowComments(date model.Date, commentId string, paginate *model.Paginate)( 
 
 }
 
-func CreateComment(commentId *model.Comment)(resp *model.Comment, err error)  {
+func CreateComment(commentId *model.Comment) (resp *model.Comment, err error) {
 
-
-	response := MySQL.Model(model.Comment{}).FirstOrCreate(&commentId)
-	if response.Error != nil{
-		return nil, response.Error
-	}
-	return resp, nil
-}
-
-func UpdateComment(comment *model.Comment, id string)(resp *model.Comment, err error)  {
-	v, err:= strconv.Atoi(id)
-	if err != nil {
-		log.Println("cannot convert")
-	}
-	ids := uint(v)
-	response := MySQL.Model(model.Comment{}).Where(&model.Comment{ Model:gorm2.Model{ID:ids } }).Updates(&comment)
-	if response.Error != nil{
-		return nil, response.Error
-	}
-	return resp, nil
-}
-
-func DeleteComment(commentId string)(resp *model.Comment, err error)  {
-	v, err:= strconv.Atoi(commentId)
-	if err != nil {
-		log.Println("cannot convert")
-	}
-	id := uint(v)
-	response := MySQL.Model(model.Comment{}).Where(&model.Comment{ Model:gorm2.Model{ID:id } }).Delete(&commentId)
+	response := MySQL.Model(model.Comment{}).Create(&commentId)
 	if response.Error != nil {
 		return nil, response.Error
 	}
 	return resp, nil
 }
 
+func UpdateComment(comment *model.Comment, id string) (resp *model.Comment, err error) {
+	v, err := strconv.Atoi(id)
+	if err != nil {
+		log.Println("cannot convert")
+	}
+	ids := uint(v)
+	response := MySQL.Model(model.Comment{}).Where(&model.Comment{Model: gorm2.Model{ID: ids}}).Updates(&comment)
+	if response.Error != nil {
+		return nil, response.Error
+	}
+	return resp, nil
+}
 
+func DeleteComment(commentId string) (resp *model.Comment, err error) {
+	v, err := strconv.Atoi(commentId)
+	if err != nil {
+		log.Println("cannot convert")
+	}
+	id := uint(v)
+	response := MySQL.Table("trees").Where("id = ?", id).Delete(&id)
+	if response.Error != nil {
+		return nil, response.Error
+	}
+	return resp, nil
+}
