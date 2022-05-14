@@ -6,7 +6,6 @@ import (
 	"gorm.io/gorm"
 	"log"
 	"strconv"
-	"time"
 )
 
 func ShowTrees(date model.Date, treeId string, page *model.Paginate, )(resp *model.PaginateTreeResponse,err error) {
@@ -19,7 +18,7 @@ func ShowTrees(date model.Date, treeId string, page *model.Paginate, )(resp *mod
 	return resp, nil
 }
 
-func ShowTreesByQr(qr string)(resp *model.Tree, err error)  {
+func ShowTreesByQr(qr string)(resp []*model.Result, err error)  {
 	 resp, err = db.ShowTreesByQr(qr)
 	if err != nil {
 		log.Println("we dont have response from db")
@@ -35,12 +34,14 @@ func CreateTree(tree *model.Tree, qr string) error  {
 		Model:       gorm.Model{},
 		FullName:    tree.FullName,
 		Age:         tree.Age,
-		DateOfBirth: time.Time{},
+		DateOfBirth: tree.DateOfBirth,
 		Type:        tree.Type,
 		Lat:         tree.Lat,
 		Long:        tree.Long,
 		Qr:          qr,
 		Length:      tree.Length,
+		CommentId: tree.CommentId,
+		GardenId: tree.GardenId,
 	}
 	 err = db.CreateTree(&NewTree)
 	if err != nil {

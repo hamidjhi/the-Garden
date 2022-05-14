@@ -5,7 +5,8 @@ import "gorm.io/gorm"
 type Comment struct {
 	gorm.Model
 	Text string `json:"text"`
-	TreeId uint  `gorm:"ForeignKey:tree_id" json:"comment_id"`
+	TreeId uint `json:"tree_id"`
+	Tree  []Tree  `gorm:"ForeignKey:id;reference:Tree_Id" json:"tree"`
 }
 
 type CommentResponsePaginate struct {

@@ -62,15 +62,36 @@ func ShowTrees(date model.Date, treeId string, paginate *model.Paginate) (*model
 
 }
 
-func ShowTreesByQr(qr string) (*model.Tree, error) {
-	var c *model.Tree
+func ShowTreesByQr(qr string) ([]*model.Result, error) {
+	var c []*model.Result
 	var err error
-	//res := MySQL.Model(model.Tree{}).Where(model.Tree{Qr: qr}).Joins("").Joins("").Find(&c)
-	res := MySQL.Model(&model.Tree{}).Where(model.Tree{Qr: qr}).Select("qr, comment_id").Joins("left join comment on comment_id = tree_id").Scan(c)
-	if res.Error != nil {
+
+//	res :=MySQL.Table("trees").Select("trees.id, comments.text").Joins("LEFT JOIN comments on comments.tree_id = trees.id").Scan(&c)
+//res := MySQL.Table("trees").Preload(model.Comment{TreeId: 1}.Text).Scan(&c)
+//     res := MySQL.Model(&model.Tree{}).Where(model.Tree{Qr: qr}).Select("trees.id, trees.full_name, trees.lat, comments.text").Joins("left join comments on comments.tree_id = trees.id").Scan(&c)
+	    res :=MySQL.Model(&model.Tree{}).Where(model.Tree{Qr: qr}).
+	    	Select("trees.id, trees.full_name, trees.lat, comments.text, gardens.name").
+	    	Joins("left join comments on comments.tree_id = trees.id").
+	    	Joins("left join gardens on gardens.tree_id = trees.id").
+	    	Scan(&c)
+     if res.Error != nil {
+
 		return nil, err
 	}
 	return c, nil
+
+	//
+	//
+	//type result struct {
+	//	Name  string
+	//	Email string
+	//}
+	//
+	//db.Model(&User{}).Select("users.name, emails.email").Joins("left join emails on emails.user_id = users.id").Scan(&result{})
+	//// SELECT users.name, emails.email FROM `users` left join emails on emails.user_id = users.id
+
+
+
 
 }
 
@@ -102,3 +123,5 @@ type result struct {
 	Name  string
 	Email string
 }
+
+
