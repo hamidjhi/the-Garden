@@ -62,8 +62,8 @@ func ShowTrees(date model.Date, treeId string, paginate *model.Paginate) (*model
 
 }
 
-func ShowTreesByQr(qr string) ([]*model.Result, error) {
-	var c []*model.Result
+func ShowTreesByQr(qr string) ([]*model.TreeResult, error) {
+	var c []*model.TreeResult
 	var err error
 
 //	res :=MySQL.Table("trees").Select("trees.id, comments.text").Joins("LEFT JOIN comments on comments.tree_id = trees.id").Scan(&c)

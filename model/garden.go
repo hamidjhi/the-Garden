@@ -2,7 +2,6 @@ package model
 
 import (
 	"gorm.io/gorm"
-	"net/url"
 )
 
 type Garden struct {
@@ -13,7 +12,7 @@ type Garden struct {
 	Long float64 `json:"long"`
 	AdminNumber   string `json:"admin_number"`
 	AdminName string `json:"admin_name"`
-	Pic url.URL`json:"pic"`
+	Pic string`json:"pic"`
 }
 
 type PaginateGardenResponse struct {

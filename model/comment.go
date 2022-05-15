@@ -2,7 +2,6 @@ package model
 
 import (
 	"gorm.io/gorm"
-	"net/url"
 )
 
 type Comment struct {
@@ -10,7 +9,7 @@ type Comment struct {
 	Text string `json:"text"`
 	TreeId uint `json:"tree_id"`
 	Tree  []Tree  `gorm:"ForeignKey:id;reference:Tree_Id" json:"tree"`
-	Pic url.URL `json:"pic"`
+	Pic string `json:"pic"`
 }
 
 type CommentResponsePaginate struct {

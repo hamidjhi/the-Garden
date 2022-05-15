@@ -7,7 +7,7 @@ type Tags struct {
 	Popular   string `json:"popular"`
 	Pops      string `json:"pops"`
 	CommentId uint `gorm:"foreignKey :ID; reference:CommentId" json:"comment_id"`
-
+	Pic string `json:"pic"`
 }
 
 type PaginateTagsResponse struct {

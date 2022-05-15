@@ -18,7 +18,7 @@ func ShowTrees(date model.Date, treeId string, page *model.Paginate, )(resp *mod
 	return resp, nil
 }
 
-func ShowTreesByQr(qr string)(resp []*model.Result, err error)  {
+func ShowTreesByQr(qr string)(resp []*model.TreeResult, err error)  {
 	 resp, err = db.ShowTreesByQr(qr)
 	if err != nil {
 		log.Println("we dont have response from db")
@@ -40,8 +40,10 @@ func CreateTree(tree *model.Tree, qr string) error  {
 		Long:        tree.Long,
 		Qr:          qr,
 		Length:      tree.Length,
-		CommentId: tree.CommentId,
-		GardenId: tree.GardenId,
+		GardenId:    tree.GardenId,
+		Pic:         tree.Pic,
+		CommentId:   tree.CommentId,
+		Description: tree.Description,
 	}
 	 err = db.CreateTree(&NewTree)
 	if err != nil {
@@ -64,7 +66,7 @@ func UpdateTree(tree *model.Tree, str string)( err error)  {
 }
 
 func DeleteTree(treeId string)(err error) {
-	v , err:= strconv.ParseUint(treeId, 64,10)
+	v , err:= strconv.Atoi(treeId)
 	id := uint(v)
 	 err = db.DeleteTree(id)
 	if err != nil {
