@@ -59,32 +59,44 @@ func ShowGardens(date model.Date, gardenId string, paginate *model.Paginate) (*m
 
 }
 
-func CreateGarden(garden *model.Garden) (resp *model.Garden, err error) {
+func ShowGardenByNumber(number string)([]*model.Garden, error)  {
+	var resp []*model.Garden
+	var err error
 
-	response := MySQL.Model(model.Garden{}).Create(&garden)
-	if response.Error != nil {
-		return nil, response.Error
+	res := MySQL.Model(&model.Garden{}).Where(model.Garden{AdminNumber: number}).Find(&resp)
+	if res == nil{
+		return nil, err
 	}
 	return resp, nil
 }
 
-func UpdateGarden(garden *model.Garden, str string) (resp *model.Garden, err error) {
+
+func CreateGarden(garden *model.Garden) (err error) {
+
+	response := MySQL.Model(model.Garden{}).Create(&garden)
+	if response.Error != nil {
+		return err
+	}
+	return nil
+}
+
+func UpdateGarden(garden *model.Garden, str string) (err error) {
 
 	v, err := strconv.Atoi(str)
 	id := uint(v)
 	response := MySQL.Model(model.Garden{}).Where(&model.Garden{Model: gorm.Model{ID: id}}).Updates(&garden)
 	if response.Error != nil {
-		return nil, response.Error
+		return err
 	}
-	return resp, nil
+	return nil
 }
 
-func DeleteGarden(gardenId string) (resp *model.Garden, err error) {
+func DeleteGarden(gardenId string) (err error) {
 	v, err := strconv.Atoi(gardenId)
 	id := uint(v)
 	response := MySQL.Table("trees").Where("id = ?", id).Delete(&id)
 	if response.Error != nil {
-		return nil, response.Error
+		return err
 	}
-	return resp, nil
+	return nil
 }

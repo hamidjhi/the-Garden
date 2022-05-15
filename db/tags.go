@@ -21,8 +21,8 @@ func ShowTags(date model.Date, tagId string, paginate *model.Paginate) (*model.P
 		response := MySQL.Model(&model.Tags{}).
 			Where(&model.Tags{Model: gorm2.Model{ID: id}}).
 			Where("created_at BETWEEN ? AND ?", date.FromDate, date.ToDate)
-		if response != nil {
-			return nil, response.Error
+		if response == nil {
+			return nil, err
 		}
 		p := paginator.New(adapter.NewGORMAdapter(response), paginate.PerPage)
 		p.SetPage(paginate.Page)

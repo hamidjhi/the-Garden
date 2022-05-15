@@ -80,25 +80,13 @@ func ShowTreesByQr(qr string) ([]*model.Result, error) {
 	}
 	return c, nil
 
-	//
-	//
-	//type result struct {
-	//	Name  string
-	//	Email string
-	//}
-	//
-	//db.Model(&User{}).Select("users.name, emails.email").Joins("left join emails on emails.user_id = users.id").Scan(&result{})
-	//// SELECT users.name, emails.email FROM `users` left join emails on emails.user_id = users.id
-
-
-
 
 }
 
-func CreateTree(tree *model.Tree) error {
+func CreateTree(tree *model.Tree)  (err error) {
 	response := MySQL.Model(model.Tree{}).Create(&tree)
 	if response.Error != nil {
-		return response.Error
+		return err
 	}
 	return nil
 }
@@ -111,17 +99,13 @@ func UpdateTree(tree *model.Tree, id uint) (err error) {
 	return nil
 }
 
-func DeleteTree(id uint) (resp *model.Tree, err error) {
+func DeleteTree(id uint) ( err error) {
 	response := MySQL.Table("trees").Where("id = ?", id).Delete(&id)
 	if response.Error != nil {
-		return nil, response.Error
+		return err
 	}
-	return resp, nil
+	return  nil
 }
 
-type result struct {
-	Name  string
-	Email string
-}
 
 

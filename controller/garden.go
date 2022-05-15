@@ -37,6 +37,23 @@ func showGardens(c echo.Context)(err error)  {
 	return c.JSON(http.StatusOK,resp)
 }
 
+func showGardenByNumber(c echo.Context)(err error)  {
+
+	var phoneNumber string
+
+	phoneNumber = c.QueryParam("number")
+
+	if phoneNumber == "" {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+
+	   res, err := logic.ShowGardenByNumber(phoneNumber)
+	if err != nil {
+		return c.JSON(http.StatusForbidden, err)
+	}
+	return c.JSON(http.StatusOK,res)
+}
+
 func createGarden(c echo.Context)(err error)  {
 
 	n := new(model.Garden)
@@ -46,11 +63,11 @@ func createGarden(c echo.Context)(err error)  {
 		return c.JSON(http.StatusBadRequest,err.Error())
 	}
 
-	 resp, err := logic.CreateGarden(n)
+	  err = logic.CreateGarden(n)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-	return c.JSON(http.StatusCreated,resp.CreatedAt)
+	return c.JSON(http.StatusCreated,"garden created successfully!")
 }
 
 func updateGarden(c echo.Context)(err error)  {
@@ -62,11 +79,11 @@ func updateGarden(c echo.Context)(err error)  {
 		return c.JSON(http.StatusBadRequest,err.Error())
 	}
 
-	resp, err := logic.UpdateGarden(n, id)
+	err = logic.UpdateGarden(n, id)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-	return c.JSON(http.StatusCreated,resp.UpdatedAt)
+	return c.JSON(http.StatusCreated,"garden updated successfully")
 
 }
 
@@ -76,10 +93,10 @@ func deleteGarden(c echo.Context)(err error) {
 	if gardenId = c.QueryParam("gardenId"); gardenId == "" {
 		return c.JSON(http.StatusBadRequest,err)
 	}
-	 resp ,err := logic.DeleteGarden(gardenId)
+	err = logic.DeleteGarden(gardenId)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError,err.Error())
 	}
-      return c.JSON(http.StatusOK,resp.DeletedAt)
+      return c.JSON(http.StatusOK,"garden deleted successfully!!")
 }
 

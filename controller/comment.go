@@ -51,11 +51,11 @@ func createComment(c echo.Context)(err error)  {
 		return c.JSON(http.StatusBadRequest,err.Error())
 	}
 
-	resp, err := logic.CreateComment(n)
+	err = logic.CreateComment(n)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-	return c.JSON(http.StatusCreated,resp.CreatedAt)
+	return c.JSON(http.StatusCreated,"comment created!!!")
 }
 
 func updateComment(c echo.Context)(err error)  {
@@ -67,11 +67,11 @@ func updateComment(c echo.Context)(err error)  {
 		return c.JSON(http.StatusBadRequest,err.Error())
 	}
 
-	resp, err := logic.UpdateComment(n, Id)
+	err = logic.UpdateComment(n, Id)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-	return c.JSON(http.StatusCreated,resp.UpdatedAt)
+	return c.JSON(http.StatusCreated,"comment updated!!!")
 
 }
 
@@ -81,10 +81,10 @@ func deleteComment(c echo.Context)(err error) {
 	if CommentId = c.QueryParam("commentId"); CommentId == "" {
 		return c.JSON(http.StatusBadRequest, err)
 	}
-	resp ,err := logic.DeleteComment(CommentId)
+	 err = logic.DeleteComment(CommentId)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError,err.Error())
 	}
-	return c.JSON(http.StatusOK,resp.DeletedAt)
+	return c.JSON(http.StatusOK,"comment deleted")
 }
 

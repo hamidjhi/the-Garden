@@ -17,29 +17,38 @@ func ShowGardens(date model.Date, GardenId string, page *model.Paginate, )(resp 
 	return resp, nil
 }
 
-func CreateGarden(garden *model.Garden)(resp *model.Garden, err error)  {
-	 resp, err = db.CreateGarden(garden)
+func ShowGardenByNumber(number string)(res []*model.Garden, err error)  {
+	res, err = db.ShowGardenByNumber(number)
+	if err != nil {
+		log.Println("someThing wrong to response data from garden")
+	}
+	return res, nil
+}
+
+
+func CreateGarden(garden *model.Garden)( err error)  {
+	  err = db.CreateGarden(garden)
 	if err != nil {
 		log.Println("cannot add anything to garden table ")
 	}
-	return resp, nil
+	return nil
 }
 
-func UpdateGarden(garden *model.Garden, id string)(resp *model.Garden, err error)  {
-	resp, err = db.UpdateGarden(garden, id)
+func UpdateGarden(garden *model.Garden, id string)(err error)  {
+	err = db.UpdateGarden(garden, id)
 	if err != nil {
 		log.Println("cannot update garden db table")
 	}
-	return resp, nil
+	return nil
 }
 
-func DeleteGarden(gardenId string)(resp *model.Garden, err error) {
+func DeleteGarden(gardenId string)(err error) {
 
-	resp, err = db.DeleteGarden(gardenId)
+	err = db.DeleteGarden(gardenId)
 	if err != nil {
-		log.Println("cannot ")
+		log.Println("cannot delete row from garden database ")
 	}
-	return resp, nil
+	return nil
 }
 
 

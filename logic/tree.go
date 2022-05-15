@@ -63,13 +63,13 @@ func UpdateTree(tree *model.Tree, str string)( err error)  {
 	return  nil
 }
 
-func DeleteTree(treeId string)(resp *model.Tree, err error) {
+func DeleteTree(treeId string)(err error) {
 	v , err:= strconv.ParseUint(treeId, 64,10)
 	id := uint(v)
-	resp, err = db.DeleteTree(id)
+	 err = db.DeleteTree(id)
 	if err != nil {
 		log.Println("cannot delete from tree table")
 	}
-	return resp, nil
+	return nil
 }
 

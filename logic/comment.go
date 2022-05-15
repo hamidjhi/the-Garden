@@ -10,34 +10,34 @@ func ShowComments(date model.Date, commentId string, page *model.Paginate, )(res
 
 	resp, err = db.ShowComments(date, commentId, page)
 	if err != nil {
-		log.Println("we have an err to getting response from comment table")
+		log.Println("something wrong on show comments, please check!")
 	}
 
 	return resp, nil
 }
 
-func CreateComment(comment *model.Comment)(resp *model.Comment, err error)  {
-	resp, err = db.CreateComment(comment)
+func CreateComment(comment *model.Comment)(err error)  {
+	err = db.CreateComment(comment)
 	if err != nil {
-		log.Println("cannot add anything to garden table ")
+		log.Println("something wrong on create comment, please check!")
 	}
-	return resp, nil
+	return  nil
 }
 
-func UpdateComment(comment *model.Comment, id string)(resp *model.Comment, err error)  {
-	resp, err = db.UpdateComment(comment, id)
+func UpdateComment(comment *model.Comment, id string)(err error)  {
+	 err = db.UpdateComment(comment, id)
 	if err != nil {
-		log.Println("cannot update comment table")
+		log.Println("something wrong on updating comment, please check!")
 	}
-	return resp, nil
+	return  nil
 }
 
-func DeleteComment(CommentId string)(resp *model.Comment, err error) {
+func DeleteComment(CommentId string)(err error) {
 
-	resp, err = db.DeleteComment(CommentId)
+	 err = db.DeleteComment(CommentId)
 	if err != nil {
-		log.Println("cannot ")
+		log.Println("something wrong on deleting comment, please check!!  ")
 	}
-	return resp, nil
+	return nil
 }
 

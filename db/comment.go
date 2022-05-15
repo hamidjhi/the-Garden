@@ -59,16 +59,16 @@ func ShowComments(date model.Date, commentId string, paginate *model.Paginate) (
 
 }
 
-func CreateComment(commentId *model.Comment) (resp *model.Comment, err error) {
+func CreateComment(commentId *model.Comment) (err error) {
 
 	response := MySQL.Model(model.Comment{}).Create(&commentId)
 	if response.Error != nil {
-		return nil, response.Error
+		return err
 	}
-	return resp, nil
+	return nil
 }
 
-func UpdateComment(comment *model.Comment, id string) (resp *model.Comment, err error) {
+func UpdateComment(comment *model.Comment, id string) (err error) {
 	v, err := strconv.Atoi(id)
 	if err != nil {
 		log.Println("cannot convert")
@@ -76,12 +76,12 @@ func UpdateComment(comment *model.Comment, id string) (resp *model.Comment, err 
 	ids := uint(v)
 	response := MySQL.Model(model.Comment{}).Where(&model.Comment{Model: gorm2.Model{ID: ids}}).Updates(&comment)
 	if response.Error != nil {
-		return nil, response.Error
+		return response.Error
 	}
-	return resp, nil
+	return nil
 }
 
-func DeleteComment(commentId string) (resp *model.Comment, err error) {
+func DeleteComment(commentId string) (err error) {
 	v, err := strconv.Atoi(commentId)
 	if err != nil {
 		log.Println("cannot convert")
@@ -89,7 +89,7 @@ func DeleteComment(commentId string) (resp *model.Comment, err error) {
 	id := uint(v)
 	response := MySQL.Table("trees").Where("id = ?", id).Delete(&id)
 	if response.Error != nil {
-		return nil, response.Error
+		return  response.Error
 	}
-	return resp, nil
+	return  nil
 }

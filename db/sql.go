@@ -40,7 +40,7 @@ func AutoMigrate() error{
 	MySQL.AutoMigrate(model.Garden{})
 	MySQL.AutoMigrate(model.Tree{})
 	MySQL.AutoMigrate(model.Comment{})
-
+    MySQL.AutoMigrate(model.Tags{})
  return nil
 }
 

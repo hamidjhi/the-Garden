@@ -19,14 +19,14 @@ func ShowTags(date model.Date, tagId string, page *model.Paginate) (resp *model.
 func AddTag(tags *model.Tags) (err error) {
 	err = db.AddTag(tags)
 	if err != nil {
-		log.Println("cannot add anything to tags table ")
+		log.Println("someThing wrong to add tag, check it!!")
 	}
 	return nil
 }
 func UpdateTag(tag *model.Tags, id string) (err error) {
 	err = db.UpdateTag(tag, id)
 	if err != nil {
-		log.Println("cannot update tags db table")
+		log.Println("cannot update tags....")
 	}
 	return nil
 }
@@ -34,7 +34,7 @@ func UpdateTag(tag *model.Tags, id string) (err error) {
 func DeleteTag(id string) (err error) {
 	err = db.DeleteTag(id)
 	if err != nil {
-		log.Println("cannot delete tag from TagDb table")
+		log.Println("cannot delete tag ....")
 	}
 	return nil
 }

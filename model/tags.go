@@ -6,8 +6,8 @@ type Tags struct {
 	gorm.Model
 	Popular   string `json:"popular"`
 	Pops      string `json:"pops"`
-	CommentId uint `json:"comment_id"`
-	Comment Comment `gorm:"foreignKey :ID; reference:CommentId" json:"comment"`
+	CommentId uint `gorm:"foreignKey :ID; reference:CommentId" json:"comment_id"`
+
 }
 
 type PaginateTagsResponse struct {

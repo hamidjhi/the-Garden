@@ -25,6 +25,7 @@ func RegisterRoutes(c *echo.Echo) {
 
 	// user qr scanner
 	v.GET("/getTreeByQr", showTreesByQr)
+	v.GET("/getGardenByNumber", showGardenByNumber)
 
 
 	// tags crud

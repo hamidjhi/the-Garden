@@ -64,7 +64,7 @@ func createTree(c echo.Context)(err error)  {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error()+"its seems the user created before")
 	}
-	return c.JSON(http.StatusCreated,"user created successfully")
+	return c.JSON(http.StatusCreated,"tree created successfully")
 }
 
 func updateTree(c echo.Context)(err error)  {
@@ -94,10 +94,10 @@ func deleteTree(c echo.Context)(err error) {
 	if id = c.QueryParam("id"); id == "" {
 		return c.JSON(http.StatusBadRequest,err)
 	}
-	resp ,err := logic.DeleteTree(id)
+	err = logic.DeleteTree(id)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError,err.Error())
 	}
-	return c.JSON(http.StatusOK,resp.DeletedAt)
+	return c.JSON(http.StatusOK,"tree deleted successfully!!")
 }
 
