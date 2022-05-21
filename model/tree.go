@@ -16,8 +16,8 @@ type Tree struct {
 	Length      float64 `json:"length"`
 	GardenId    uint    `json:"garden_id"`
 	Pic         string `json:"pic"`
-	Comments   []Comment    `json:"comment_id"`
 	Description string  `json:"description"`
+	Comments   []Comment    `json:"comment_id"`
 }
 
 type PaginateTreeResponse struct {
