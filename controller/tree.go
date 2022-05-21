@@ -62,7 +62,7 @@ func createTree(c echo.Context)(err error)  {
 
 	 err = logic.CreateTree(n, qr)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error()+"its seems the user created before")
+		return c.JSON(http.StatusBadRequest, err.Error()+"its seems the tree created before")
 	}
 	return c.JSON(http.StatusCreated,"tree created successfully")
 }

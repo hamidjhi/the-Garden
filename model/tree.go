@@ -16,7 +16,7 @@ type Tree struct {
 	Length      float64 `json:"length"`
 	GardenId    uint    `json:"garden_id"`
 	Pic         string `json:"pic"`
-	CommentId   uint    `json:"comment_id"`
+	Comments   []Comment    `json:"comment_id"`
 	Description string  `json:"description"`
 }
 
@@ -38,4 +38,6 @@ type TreeResult struct {
 	Name string `json:"name"`
 	Type string `json:"type"`
 }
+
+
 

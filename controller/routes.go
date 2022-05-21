@@ -34,6 +34,13 @@ func RegisterRoutes(c *echo.Echo) {
 	v.POST("/postTag", addTag)
 	v.PUT("/updateTag", updateTag)
 	v.DELETE("/deleteTag", deleteTag)
+
+
+
+	//User crud
+	v.GET("/createUser", createUser)
+	v.GET("/updateUser", updateUser)
+
 }
 
 
