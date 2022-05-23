@@ -78,7 +78,7 @@ func ShowTreesByQr(qr string) ([]*model.Tree, error) {
 	    res := MySQL.Preload("Comments").Where(model.Tree{Qr: qr}).Find(&c)
 
 
-	if res.Error != nil {
+	if res == nil {
 
 		return nil, err
 	}
