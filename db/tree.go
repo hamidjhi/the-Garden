@@ -62,8 +62,8 @@ func ShowTrees(date model.Date, treeId string, paginate *model.Paginate) (*model
 
 }
 
-func ShowTreesByQr(qr string) ([]*model.Tree, error) {
-	var c []*model.Tree
+func ShowTreesByQr(qr string, paginate *model.Paginate) (*model.PaginateTreeResponse, error) {
+	var c model.PaginateTreeResponse
 	var err error
 
 //	res :=MySQL.Table("trees").Select("trees.id, comments.text").Joins("LEFT JOIN comments on comments.tree_id = trees.id").Scan(&c)
@@ -75,16 +75,28 @@ func ShowTreesByQr(qr string) ([]*model.Tree, error) {
 //	    	Joins("left join gardens on gardens.tree_id = trees.id").
 //	    	Scan(&c)
 //
-	    res := MySQL.Preload("Comments").Where(model.Tree{Qr: qr}).Find(&c)
+	    res := MySQL.Model(&model.Tree{}).Where(model.Tree{Qr: qr}).Preload("Comments")
 
 
 	if res == nil {
 
 		return nil, err
 	}
-	return c, nil
+	p:= paginator.New(adapter.NewGORMAdapter(res),paginate.PerPage)
+	    p.SetPage(paginate.Page)
 
-
+	//for _, v := range c{
+		if err = p.Results(&c.Resp) ;err != nil {
+			return nil, err
+		}
+		c.Paging.Next, _ = p.NextPage() // 8
+		c.Paging.Perv, _ = p.PrevPage() // 6
+		c.Paging.Current = p.Page()     // 7
+		totalPage := p.Nums()             // 7
+		c.Paging.Total = totalPage
+		//c= append(c,v)
+		//}
+		return &c, nil
 }
 
 func CreateTree(tree *model.Tree)  (err error) {

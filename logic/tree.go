@@ -18,8 +18,8 @@ func ShowTrees(date model.Date, treeId string, page *model.Paginate, )(resp *mod
 	return resp, nil
 }
 
-func ShowTreesByQr(qr string,)(resp []*model.Tree, err error)  {
-	 resp, err = db.ShowTreesByQr(qr)
+func ShowTreesByQr(qr string,page *model.Paginate)(resp *model.PaginateTreeResponse, err error)  {
+	 resp, err = db.ShowTreesByQr(qr, page)
 	if err != nil {
 		log.Println("we dont have response from db")
 	}

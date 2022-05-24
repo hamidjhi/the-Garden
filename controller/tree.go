@@ -40,11 +40,15 @@ func showTrees(c echo.Context)(err error)  {
 
 func showTreesByQr(c echo.Context)(err error)  {
 
-    qr := c.QueryParam("qr")
+	paging, err := getPagePerPage(c, err)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+	qr := c.QueryParam("qr")
     if qr == "" {
 		return c.JSON(http.StatusBadRequest, err)
 	}
-	resp, err := logic.ShowTreesByQr(qr)
+	resp, err := logic.ShowTreesByQr(qr, paging)
 	if err != nil {
 		return c.JSON(http.StatusBadGateway, err)
 	}
