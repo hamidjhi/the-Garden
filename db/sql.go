@@ -17,7 +17,7 @@ func Connect() error {
 		config.SQLUserName, config.SQLPassword, config.SQLHost, config.SQLPort, config.SQLDBName)
 	var err error
 	if MySQL == nil {
-		MySQL, err =gorm.Open("mysql", connectionString)
+		MySQL, err = gorm.Open("mysql", connectionString)
 		fmt.Println("mysql connected")
 		if err != nil {
 			// implement retry mechanism
@@ -31,9 +31,8 @@ func Connect() error {
 
 func AutoMigrate() error{
 	err := Connect()
-
 	if err != nil {
-		// implement retry mechanism
+		// retry mechanism
 		log.Fatal(err)
 		return err
 	}
@@ -41,6 +40,8 @@ func AutoMigrate() error{
 	MySQL.AutoMigrate(model.Tree{})
 	MySQL.AutoMigrate(model.Comment{})
     MySQL.AutoMigrate(model.Tags{})
+	MySQL.AutoMigrate(model.User{})
+	MySQL.AutoMigrate(model.GardenLocation{})
  return nil
 }
 
