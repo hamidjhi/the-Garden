@@ -7,9 +7,9 @@ import (
 
 )
 
-func ShowGardens(date model.Date, GardenId string, page *model.Paginate, )(resp *model.PaginateGardenResponse,err error) {
+func ShowGardens(date model.Date, GardenId string,userId string, page *model.Paginate, )(resp *model.PaginateGardenResponse,err error) {
 
-	resp, err = db.ShowGardens(date, GardenId, page)
+	resp, err = db.ShowGardens(date, GardenId,userId, page)
 	if err != nil {
 		log.Println("we have an err to getting response from garden table")
 	}

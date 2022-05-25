@@ -40,7 +40,6 @@ func CreateTree(tree *model.Tree, qr string) error  {
 		Long:        tree.Long,
 		Qr:          qr,
 		Length:      tree.Length,
-		GardenId:    tree.GardenId,
 		Pic:         tree.Pic,
 		Description: tree.Description,
 	}

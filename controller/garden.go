@@ -8,7 +8,7 @@ import (
 )
 
 func showGardens(c echo.Context)(err error)  {
-    var gardenId string
+    var gardenId, userId string
    var date model.Date
 
     paging, err := getPagePerPage(c, err)
@@ -29,7 +29,12 @@ func showGardens(c echo.Context)(err error)  {
 		gardenId = ""
 	}
 
-	resp, err:= logic.ShowGardens(date, gardenId, paging)
+	if userId = c.QueryParam("user_Id") ; userId == ""{
+		userId = ""
+
+	}
+
+	resp, err:= logic.ShowGardens(date, gardenId,userId, paging)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}

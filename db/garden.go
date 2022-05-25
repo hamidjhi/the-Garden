@@ -9,7 +9,7 @@ import (
 	"strconv"
 )
 
-func ShowGardens(date model.Date, gardenId string, paginate *model.Paginate) (*model.PaginateGardenResponse, error) {
+func ShowGardens(date model.Date, gardenId string, UserId string, paginate *model.Paginate) (*model.PaginateGardenResponse, error) {
 	var all model.PaginateGardenResponse
 	if gardenId != "" {
 
@@ -38,6 +38,35 @@ func ShowGardens(date model.Date, gardenId string, paginate *model.Paginate) (*m
 		all.Paging.Total = totalPage
 		return &all, nil
 	}
+
+	if UserId != "" {
+
+		v, err := strconv.Atoi(UserId)
+		if err != nil {
+			log.Println("cannot convert string to int")
+		}
+		id := uint(v)
+		response := MySQL.Model(&model.Garden{}).
+			Where(&model.Garden{Model: gorm.Model{ID: id}}).
+			Where("created_at BETWEEN ? AND ?", date.FromDate, date.ToDate)
+		if response != nil {
+			return nil, response.Error
+		}
+		p := paginator.New(adapter.NewGORMAdapter(response), paginate.PerPage)
+		p.SetPage(paginate.Page)
+
+		if err := p.Results(&all.Resp); err != nil {
+			return nil, err
+		}
+
+		all.Paging.Next, _ = p.NextPage() // 8
+		all.Paging.Perv, _ = p.PrevPage() // 6
+		all.Paging.Current = p.Page()     // 7
+		totalPage := p.Nums()             // 7
+		all.Paging.Total = totalPage
+		return &all, nil
+	}
+
 	response := MySQL.Model(&model.Garden{}).
 		Where("created_at BETWEEN ? AND ?", date.FromDate, date.ToDate)
 	if response != nil {
