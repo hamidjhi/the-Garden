@@ -13,6 +13,7 @@ type Garden struct {
 	AdminNumber   string `json:"admin_number"`
 	AdminName string `json:"admin_name"`
 	Pic string`json:"pic"`
+	Tree    Tree  `gorm:"foreignKey:ID" json:"tree"`
 }
 
 type PaginateGardenResponse struct {

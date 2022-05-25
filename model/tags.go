@@ -6,7 +6,7 @@ type Tags struct {
 	gorm.Model
 	Popular   string `json:"popular"`
 	Pops      string `json:"pops"`
-	CommentId uint `gorm:"foreignKey :ID; reference:CommentId" json:"comment_id"`
+	Comment []Comment `gorm:"foreignKey: ID" json:"comment"`
 	Pic string `json:"pic"`
 }
 

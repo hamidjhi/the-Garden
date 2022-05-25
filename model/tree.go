@@ -14,19 +14,15 @@ type Tree struct {
 	Long        float64 `json:"long"`
 	Qr          string  `json:"qr"`
 	Length      float64 `json:"length"`
-	GardenId    uint    `json:"garden_id"`
 	Pic         string `json:"pic"`
 	Description string  `json:"description"`
-	Comments   []Comment    `json:"comment_id"`
+	Comments   []Comment `json:"comments"`
 }
 
 type PaginateTreeResponse struct {
 	Resp   []Tree     `json:"resp"`
 	Paging Pagination `json:"paging"`
 }
-
-
-
 
 type TreeResult struct {
 	ID uint `json:"id"`
