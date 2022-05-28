@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-func ShowTrees(date model.Date, treeId string, page *model.Paginate, )(resp *model.PaginateTreeResponse,err error) {
+func ShowTrees(date model.Date, treeId string, page *model.Paginate )(resp *model.PaginateTreeResponse,err error) {
 
 	resp, err = db.ShowTrees(date, treeId, page)
 	if err != nil {
@@ -28,7 +28,7 @@ func ShowTreesByQr(qr string,page *model.Paginate)(resp *model.PaginateTreeRespo
 
 
 
-func CreateTree(tree *model.Tree, qr string) error  {
+func CreateTree(tree *model.Tree, userId,qr string) error  {
  var err error
 	var NewTree = model.Tree{
 		Model:       gorm.Model{},
@@ -43,7 +43,7 @@ func CreateTree(tree *model.Tree, qr string) error  {
 		Pic:         tree.Pic,
 		Description: tree.Description,
 	}
-	 err = db.CreateTree(&NewTree)
+	 err = db.CreateTree(&NewTree, userId)
 	if err != nil {
 		log.Println("cannot add anything to tree table ")
 	}

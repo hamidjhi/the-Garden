@@ -6,17 +6,18 @@ import (
 
 type Tree struct {
 	gorm.Model
-	FullName    string  `json:"full_name"`
-	Age         string  `json:"age"`
-	DateOfBirth string  `json:"date_of_birth"`
-	Type        string  `json:"type"`
-	Lat         float64 `json:"lat"`
-	Long        float64 `json:"long"`
-	Qr          string  `json:"qr"`
-	Length      float64 `json:"length"`
-	Pic         string `json:"pic"`
-	Description string  `json:"description"`
-	Comments   []Comment `json:"comments"`
+	FullName    string    `json:"full_name"`
+	Age         string    `json:"age"`
+	DateOfBirth string    `json:"date_of_birth"`
+	Type        string    `json:"type"`
+	Lat         float64   `json:"lat"`
+	Long        float64   `json:"long"`
+	Qr          string    `json:"qr"`
+	Length      float64   `json:"length"`
+	Pic         string    `json:"pic"`
+	Description string    `json:"description"`
+	GardenId    uint      `json:"garden_id"`
+	Comments    []Comment `gorm:"foreignKey:ID" json:"comments"`
 }
 
 type PaginateTreeResponse struct {

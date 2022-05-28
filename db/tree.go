@@ -99,8 +99,11 @@ func ShowTreesByQr(qr string, paginate *model.Paginate) (*model.PaginateTreeResp
 		return &c, nil
 }
 
-func CreateTree(tree *model.Tree)  (err error) {
-	response := MySQL.Model(model.Tree{}).Create(&tree)
+func CreateTree(tree *model.Tree, userId string)  (err error) {
+	ids, err := strconv.Atoi(userId)
+	id := uint(ids)
+
+	response := MySQL.Model(model.Tree{}).Where(&model.User{Model: gorm.Model{ID: id}}).Create(&tree)
 	if response.Error != nil {
 		return err
 	}

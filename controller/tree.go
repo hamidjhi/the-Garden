@@ -56,7 +56,12 @@ func showTreesByQr(c echo.Context)(err error)  {
 }
 
 func createTree(c echo.Context)(err error)  {
+   var userId string
+      userId = c.QueryParam("userId")
 
+	if userId == "" {
+		return c.JSON(http.StatusBadRequest,err.Error()+"you must be enter your id to add tree")
+	}
 	n := new(model.Tree)
      qr := utils.GenerateQr()
 	err = c.Bind(&n)
@@ -64,7 +69,7 @@ func createTree(c echo.Context)(err error)  {
 		return c.JSON(http.StatusBadRequest,err.Error())
 	}
 
-	 err = logic.CreateTree(n, qr)
+	 err = logic.CreateTree(n, userId, qr)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error()+"its seems the tree created before")
 	}

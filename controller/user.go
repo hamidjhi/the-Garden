@@ -7,6 +7,37 @@ import (
 	"net/http"
 )
 
+func getUser(c echo.Context)(err error)  {
+	var userId string
+	var date model.Date
+
+	paging, err := getPagePerPage(c, err)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	if date.FromDate = c.QueryParam("from_date"); date.FromDate == "" {
+		date.FromDate = "2006-01-01"
+	}
+
+	if date.FromDate = c.QueryParam("from_date"); date.FromDate == "" {
+		date.FromDate = "2050-01-01"
+	}
+
+	if userId = c.QueryParam("user_id"); userId == "" {
+		userId = ""
+	}
+
+	resp, err := logic.GetUser(date, userId, paging)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, resp)
+
+}
+
 func createUser(c echo.Context)(err error)  {
 
 	user := new(model.User)

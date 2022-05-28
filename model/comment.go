@@ -7,7 +7,7 @@ import (
 type Comment struct {
 	gorm.Model
 	Text string `json:"text"`
-	TreeId uint `json:"tree_id"`
+	Tag []Tags  `gorm:"foreignKey:ID" json:"tag"`
 	Pic string `json:"pic"`
 }
 

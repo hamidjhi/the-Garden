@@ -92,7 +92,7 @@ func ShowGardenByNumber(number string)([]*model.Garden, error)  {
 	var resp []*model.Garden
 	var err error
 
-	res := MySQL.Model(&model.Garden{}).Where(model.Garden{AdminNumber: number}).Find(&resp)
+	res := MySQL.Model(&model.Garden{}).Where(model.Garden{}).Find(&resp)
 	if res == nil{
 		return nil, err
 	}

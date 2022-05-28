@@ -5,6 +5,12 @@ import (
 	gorm2 "gorm.io/gorm"
 )
 
+func GetUser(date model.Date, treeId string, paginate *model.Paginate) (*model.PaginateTreeResponse, error)  {
+
+}
+
+
+
 func CreateUser(c *model.User)(err error)  {
 
 	response := MySQL.Model(model.User{}).Create(&c).Error

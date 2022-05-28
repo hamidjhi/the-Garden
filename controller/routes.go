@@ -40,8 +40,10 @@ func RegisterRoutes(c *echo.Echo) {
 
 
 	//User crud
-	v.GET("/createUser", createUser)
-	v.GET("/updateUser", updateUser)
+
+	v.GET("/getUser", getUser)
+	v.POST("/createUser", createUser)
+	v.PUT("/updateUser", updateUser)
 
 }
 

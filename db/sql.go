@@ -41,7 +41,7 @@ func AutoMigrate() error{
 	MySQL.AutoMigrate(model.Comment{})
     MySQL.AutoMigrate(model.Tags{})
 	MySQL.AutoMigrate(model.User{})
-	MySQL.AutoMigrate(model.GardenLocation{})
+
  return nil
 }
 

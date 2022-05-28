@@ -7,10 +7,20 @@ import (
 	"strconv"
 )
 
+func GetUser(date model.Date, userId string, page *model.Paginate)(resp *model.PaginateUserResponse,err error)  {
+	resp, err = db.GetUser(date, userId, page)
+	if err != nil {
+		log.Println("we have an err to getting response from tree table")
+	}
+
+	return resp, nil
+}
+
+
 func CreateUser(c *model.User)(err error)  {
 	  err = db.CreateUser(c)
 	if err != nil {
-		log.Println("something went wrong to create user!!1")
+		log.Println("something went wrong to create user!!!")
 	}
 	return nil
 }
