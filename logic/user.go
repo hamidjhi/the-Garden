@@ -17,6 +17,15 @@ func GetUser(date model.Date, userId string, page *model.Paginate)(resp *model.P
 }
 
 
+func ShowUserByNumber(number string)(res []*model.User, err error)  {
+	res, err = db.ShowUserByNumber(number)
+	if err != nil {
+		log.Println("someThing wrong to response data from user")
+	}
+	return res, nil
+}
+
+
 func CreateUser(c *model.User)(err error)  {
 	  err = db.CreateUser(c)
 	if err != nil {

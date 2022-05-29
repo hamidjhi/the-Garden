@@ -13,7 +13,7 @@ import (
 	)
 
 func showComments(c echo.Context)(err error)  {
-	var CommentId string
+	var CommentId, treeId, tagId string
 	var date model.Date
 
 	paging, err := getPagePerPage(c, err)
@@ -26,15 +26,21 @@ func showComments(c echo.Context)(err error)  {
 		date.FromDate = "2006-01-01"
 	}
 
-	if date.FromDate = c.QueryParam("from_date"); date.FromDate == "" {
-		date.FromDate = "2050-01-01"
+	if date.ToDate = c.QueryParam("to_date"); date.ToDate == "" {
+		date.ToDate = "2050-01-01"
 	}
 
 	if CommentId = c.QueryParam("commentId") ; CommentId == ""{
 		CommentId = ""
 	}
+	if treeId = c.QueryParam("treeId") ; treeId == ""{
+		treeId = ""
+	}
+	if tagId = c.QueryParam("tagId") ; tagId == ""{
+		tagId = ""
+	}
 
-	resp, err:= logic.ShowComments(date, CommentId, paging)
+	resp, err:= logic.ShowComments(date, CommentId,treeId, tagId, paging)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}

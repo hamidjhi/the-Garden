@@ -9,7 +9,7 @@ import (
 	"strconv"
 )
 
-func ShowGardens(date model.Date, gardenId string, UserId string, paginate *model.Paginate) (*model.PaginateGardenResponse, error) {
+func ShowGardens(date model.Date, gardenId string, UserId, gardenName string, paginate *model.Paginate) (*model.PaginateGardenResponse, error) {
 	var all model.PaginateGardenResponse
 	if gardenId != "" {
 
@@ -67,9 +67,31 @@ func ShowGardens(date model.Date, gardenId string, UserId string, paginate *mode
 		return &all, nil
 	}
 
+	if gardenName != "" {
+
+		response := MySQL.Model(&model.Garden{}).
+			Where(&model.Garden{Name: gardenName})
+		if response != nil {
+			return nil, response.Error
+		}
+		p := paginator.New(adapter.NewGORMAdapter(response), paginate.PerPage)
+		p.SetPage(paginate.Page)
+
+		if err := p.Results(&all.Resp); err != nil {
+			return nil, err
+		}
+
+		all.Paging.Next, _ = p.NextPage() // 8
+		all.Paging.Perv, _ = p.PrevPage() // 6
+		all.Paging.Current = p.Page()     // 7
+		totalPage := p.Nums()             // 7
+		all.Paging.Total = totalPage
+		return &all, nil
+	}
+
 	response := MySQL.Model(&model.Garden{}).
 		Where("created_at BETWEEN ? AND ?", date.FromDate, date.ToDate)
-	if response != nil {
+	if response.Error != nil {
 		return nil, response.Error
 	}
 	p := paginator.New(adapter.NewGORMAdapter(response), paginate.PerPage)
@@ -88,16 +110,6 @@ func ShowGardens(date model.Date, gardenId string, UserId string, paginate *mode
 
 }
 
-func ShowGardenByNumber(number string)([]*model.Garden, error)  {
-	var resp []*model.Garden
-	var err error
-
-	res := MySQL.Model(&model.Garden{}).Where(model.Garden{}).Find(&resp)
-	if res == nil{
-		return nil, err
-	}
-	return resp, nil
-}
 
 
 func CreateGarden(garden *model.Garden) (err error) {
@@ -123,7 +135,7 @@ func UpdateGarden(garden *model.Garden, str string) (err error) {
 func DeleteGarden(gardenId string) (err error) {
 	v, err := strconv.Atoi(gardenId)
 	id := uint(v)
-	response := MySQL.Table("trees").Where("id = ?", id).Delete(&id)
+	response := MySQL.Table("gardens").Where("id = ?", id).Delete(&id)
 	if response.Error != nil {
 		return err
 	}

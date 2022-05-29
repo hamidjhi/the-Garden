@@ -6,9 +6,9 @@ import (
 	"log"
 )
 
-func ShowComments(date model.Date, commentId string, page *model.Paginate, )(resp *model.CommentResponsePaginate,err error) {
+func ShowComments(date model.Date, commentId, treeId, tagId string, page *model.Paginate, )(resp *model.CommentResponsePaginate,err error) {
 
-	resp, err = db.ShowComments(date, commentId, page)
+	resp, err = db.ShowComments(date, commentId,treeId, tagId, page)
 	if err != nil {
 		log.Println("something wrong on show comments, please check!")
 	}

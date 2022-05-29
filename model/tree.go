@@ -17,7 +17,7 @@ type Tree struct {
 	Pic         string    `json:"pic"`
 	Description string    `json:"description"`
 	GardenId    uint      `json:"garden_id"`
-	Comments    []Comment `gorm:"foreignKey:ID" json:"comments"`
+	Comments    []Comment `gorm:"foreignKey:TreeId" json:"comments"`
 }
 
 type PaginateTreeResponse struct {

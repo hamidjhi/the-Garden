@@ -8,9 +8,9 @@ import (
 	"strconv"
 )
 
-func ShowTrees(date model.Date, treeId string, page *model.Paginate )(resp *model.PaginateTreeResponse,err error) {
+func ShowTrees(date model.Date, treeId string, gardenId string, page *model.Paginate )(resp *model.PaginateTreeResponse,err error) {
 
-	resp, err = db.ShowTrees(date, treeId, page)
+	resp, err = db.ShowTrees(date, treeId, gardenId, page)
 	if err != nil {
 		log.Println("we have an err to getting response from tree table")
 	}

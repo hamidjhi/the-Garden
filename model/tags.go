@@ -4,9 +4,9 @@ import "gorm.io/gorm"
 
 type Tags struct {
 	gorm.Model
-	Popular string `json:"popular"`
-	Pops    string `json:"pops"`
-	Pic     string `json:"pic"`
+    Tags string `json:"tags"`
+	CommentId uint `gorm:"foreignKey : TagId" json:"comment_id"`
+	Color string `json:"color"`
 }
 
 type PaginateTagsResponse struct {

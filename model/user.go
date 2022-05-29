@@ -8,7 +8,7 @@ type User struct {
 	LastName    string `json:"last_name"`
 	PhoneNumber string `json:"phone_number"`
 	IsActive    bool   `json:"is_active"`
-	Garden      []Garden `gorm:"foreignKey:ID" json:"garden"`
+	Garden      []Garden `gorm:"foreignKey:UserId" json:"garden"`
 }
 
 type PaginateUserResponse struct {

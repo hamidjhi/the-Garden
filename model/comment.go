@@ -7,8 +7,10 @@ import (
 type Comment struct {
 	gorm.Model
 	Text string `json:"text"`
-	Tag []Tags  `gorm:"foreignKey:ID" json:"tag"`
+	TreeId uint `json:"tree_id"`
+	TagId uint `json:"tag_id"`
 	Pic string `json:"pic"`
+	Tag []Tags  `gorm:"foreignKey:CommentId" json:"tag"`
 }
 
 type CommentResponsePaginate struct {

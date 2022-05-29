@@ -4,11 +4,12 @@ import (
 	"chemex/logic"
 	"chemex/model"
 	"github.com/labstack/echo"
+	"log"
 	"net/http"
 )
 
 func showGardens(c echo.Context)(err error)  {
-    var gardenId, userId string
+    var gardenId, userId, gardenName  string
    var date model.Date
 
     paging, err := getPagePerPage(c, err)
@@ -21,8 +22,8 @@ func showGardens(c echo.Context)(err error)  {
 		date.FromDate = "2006-01-01"
 	}
 
-	if date.FromDate = c.QueryParam("from_date"); date.FromDate == "" {
-		date.FromDate = "2050-01-01"
+	if date.ToDate = c.QueryParam("to_date"); date.ToDate == "" {
+		date.ToDate = "2050-01-01"
 	}
 
 	if gardenId = c.QueryParam("gardenId") ; gardenId == ""{
@@ -33,31 +34,23 @@ func showGardens(c echo.Context)(err error)  {
 		userId = ""
 
 	}
+	if gardenName = c.QueryParam("garden_name") ; gardenName == ""{
+		gardenName = ""
 
-	resp, err:= logic.ShowGardens(date, gardenId,userId, paging)
+	}
+
+
+	resp, err:= logic.ShowGardens(date, gardenId,userId, gardenName, paging)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+	if resp == nil {
+		log.Println("the response of gardenDb is nil, check it !!!")
 	}
 
 	return c.JSON(http.StatusOK,resp)
 }
 
-func showGardenByNumber(c echo.Context)(err error)  {
-
-	var phoneNumber string
-
-	phoneNumber = c.QueryParam("number")
-
-	if phoneNumber == "" {
-		return c.JSON(http.StatusBadRequest, err)
-	}
-
-	   res, err := logic.ShowGardenByNumber(phoneNumber)
-	if err != nil {
-		return c.JSON(http.StatusForbidden, err)
-	}
-	return c.JSON(http.StatusOK,res)
-}
 
 func createGarden(c echo.Context)(err error)  {
 

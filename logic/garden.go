@@ -7,9 +7,9 @@ import (
 
 )
 
-func ShowGardens(date model.Date, GardenId string,userId string, page *model.Paginate, )(resp *model.PaginateGardenResponse,err error) {
+func ShowGardens(date model.Date, GardenId string,userId,gardenName  string, page *model.Paginate, )(resp *model.PaginateGardenResponse,err error) {
 
-	resp, err = db.ShowGardens(date, GardenId,userId, page)
+	resp, err = db.ShowGardens(date, GardenId,userId, gardenName, page)
 	if err != nil {
 		log.Println("we have an err to getting response from garden table")
 	}
@@ -17,13 +17,6 @@ func ShowGardens(date model.Date, GardenId string,userId string, page *model.Pag
 	return resp, nil
 }
 
-func ShowGardenByNumber(number string)(res []*model.Garden, err error)  {
-	res, err = db.ShowGardenByNumber(number)
-	if err != nil {
-		log.Println("someThing wrong to response data from garden")
-	}
-	return res, nil
-}
 
 
 func CreateGarden(garden *model.Garden)( err error)  {

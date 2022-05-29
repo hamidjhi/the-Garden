@@ -37,6 +37,23 @@ func getUser(c echo.Context)(err error)  {
 	return c.JSON(http.StatusOK, resp)
 
 }
+func showUserByNumber(c echo.Context)(err error)  {
+
+	var phoneNumber string
+
+	phoneNumber = c.QueryParam("number")
+
+	if phoneNumber == "" {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+
+	res, err := logic.ShowUserByNumber(phoneNumber)
+	if err != nil {
+		return c.JSON(http.StatusForbidden, err)
+	}
+	return c.JSON(http.StatusOK,res)
+}
+
 
 func createUser(c echo.Context)(err error)  {
 

@@ -9,7 +9,7 @@ import (
 )
 
 func showTrees(c echo.Context)(err error)  {
-	var TreeId string
+	var TreeId, GardenId string
 	var date model.Date
 
 	paging, err := getPagePerPage(c, err)
@@ -29,8 +29,11 @@ func showTrees(c echo.Context)(err error)  {
 	if TreeId = c.QueryParam("treeId") ; TreeId == ""{
 		TreeId = ""
 	}
+	if GardenId = c.QueryParam("gardenId"); GardenId == ""{
+		GardenId = ""
+	}
 
-	resp, err:= logic.ShowTrees(date, TreeId, paging)
+	resp, err:= logic.ShowTrees(date, TreeId, GardenId, paging)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}

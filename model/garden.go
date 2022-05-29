@@ -12,7 +12,7 @@ type Garden struct {
 	Pic           string  `json:"pic"`
 	NumberOfTrees uint    `json:"number_of_trees"`
 	UserId        uint    `json:"user_id"`
-	Tree          []Tree  `gorm:"foreignKey:ID" json:"tree"`
+	Tree          []Tree  `gorm:"foreignKey:GardenId" json:"tree"`
 }
 
 type PaginateGardenResponse struct {

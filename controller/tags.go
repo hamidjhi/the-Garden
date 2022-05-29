@@ -74,7 +74,6 @@ func updateTag(c echo.Context) (err error) {
 }
 
 func deleteTag(c echo.Context) (err error) {
-
 	var TagId string
 
 	if TagId = c.QueryParam("tag_id"); TagId == "" {
