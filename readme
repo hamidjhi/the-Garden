@@ -1,0 +1,5 @@
+this is a garden simulator service.
+you can use this service to generate qr for trees.
+crud for trees, garden, comments and tags.
+see the comments of the tree when you scan the qr,
+i will  improve it soon for user authentication and middlewares and signIn and signUp.
